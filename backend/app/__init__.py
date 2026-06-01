@@ -1,0 +1,1 @@
+"""Tripoly Loyalty Platform API."""
