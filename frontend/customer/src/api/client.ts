@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useAuthStore } from "../store/authStore";
 
-const baseURL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000/api/v1";
+export const apiBaseURL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000/api/v1";
+export const apiHealthURL = new URL("/health", apiBaseURL).toString();
 
 export const api = axios.create({
-  baseURL,
+  baseURL: apiBaseURL,
   headers: { "Content-Type": "application/json", "ngrok-skip-browser-warning": "true" },
 });
 
@@ -31,7 +32,7 @@ api.interceptors.response.use(
         error.config._retry = true;
         try {
           const { data } = await axios.post(
-            `${baseURL}/auth/token/refresh`,
+            `${apiBaseURL}/auth/token/refresh`,
             { refresh_token: refresh },
             { headers: { "ngrok-skip-browser-warning": "true" } },
           );
